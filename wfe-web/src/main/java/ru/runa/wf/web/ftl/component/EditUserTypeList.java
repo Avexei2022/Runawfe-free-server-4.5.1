@@ -2,6 +2,7 @@ package ru.runa.wf.web.ftl.component;
 
 import java.util.List;
 
+
 import ru.runa.wfe.commons.ftl.FormComponentSubmissionPostProcessor;
 import ru.runa.wfe.var.UserTypeMap;
 import ru.runa.wfe.var.VariableDefinition;
@@ -10,6 +11,7 @@ import ru.runa.wfe.var.format.BooleanFormat;
 import ru.runa.wfe.var.format.VariableFormatContainer;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
 
 public class EditUserTypeList extends AbstractUserTypeList implements FormComponentSubmissionPostProcessor {
     private static final long serialVersionUID = 1L;
@@ -80,8 +82,34 @@ public class EditUserTypeList extends AbstractUserTypeList implements FormCompon
                     + definition.getName();
             WfVariable templateComponentVariable = ViewUtil.createComponentVariable(variable, suffix, definition.getFormatNotNull(), null);
             String inputComponentHtml = ViewUtil.getComponentInput(user, webHelper, templateComponentVariable);
-            return inputComponentHtml.replaceAll("\"", "'").replaceAll("\n", "").replace("[]", "{}");
+//            return inputComponentHtml.replaceAll("\"", "'").replaceAll("\n", "").replace("[]", "{}");
+            return replaceByDefaultNew(inputComponentHtml);
         }
+    }
 
+    public String replaceByDefaultOld(String stringInput) {
+        return stringInput.replaceAll("\"", "'")
+                .replaceAll("\n", "").replace("[]", "{}");
+    }
+
+    public String replaceByDefaultNew(String stringInput) {
+        StringBuilder stringBuilder = new StringBuilder(stringInput);
+        int stringLength = stringInput.length();
+        for (int i = 0; i < stringLength - 1; i++) {
+            int index_1 = stringBuilder.indexOf("\"", i);
+            if (index_1 != -1) {
+                stringBuilder.replace(index_1, index_1 + 1, "'");
+            }
+            int index_2 = stringBuilder.indexOf("\n", i);
+            if (index_2 != -1) {
+                stringBuilder.replace(index_2, index_2 + 1, "");
+            }
+            int index_3 = stringBuilder.indexOf("[]", i);
+            if (index_3 != -1) {
+                stringBuilder.replace(index_3, index_3 + 2, "{}");
+            }
+            if (index_1 == -1 && index_2 == -1 && index_3 == -1) i = stringLength;
+        }
+        return stringBuilder.toString();
     }
 }
