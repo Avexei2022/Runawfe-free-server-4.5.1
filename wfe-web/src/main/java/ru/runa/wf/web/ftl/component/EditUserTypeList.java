@@ -1,6 +1,9 @@
 package ru.runa.wf.web.ftl.component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 
 import ru.runa.wfe.commons.ftl.FormComponentSubmissionPostProcessor;
@@ -94,21 +97,21 @@ public class EditUserTypeList extends AbstractUserTypeList implements FormCompon
 
     public String replaceByDefaultNew(String stringInput) {
         StringBuilder stringBuilder = new StringBuilder(stringInput);
-        int stringLength = stringInput.length();
-        for (int i = 0; i < stringLength - 1; i++) {
-            int index_1 = stringBuilder.indexOf("\"", i);
-            if (index_1 != -1) {
-                stringBuilder.replace(index_1, index_1 + 1, "'");
+        Map<String, String> replacements = new HashMap<String, String>() {{
+            put("\"", "'");
+            put("\n", "");
+            put("[]", "{}");
+        }};
+        String[] stringToReplace = {"\"", "\n", "[]"};
+        for (int i = 0; i < stringToReplace.length; i++) {
+            int index = stringBuilder.length() - 1;
+            while (index >= 0 && index < stringBuilder.length()) {
+                index = stringBuilder.lastIndexOf(stringToReplace[i], index);
+                if (index != -1)
+                    stringBuilder.replace(index,
+                            index + stringToReplace[i].length(),
+                            replacements.get(stringToReplace[i]));
             }
-            int index_2 = stringBuilder.indexOf("\n", i);
-            if (index_2 != -1) {
-                stringBuilder.replace(index_2, index_2 + 1, "");
-            }
-            int index_3 = stringBuilder.indexOf("[]", i);
-            if (index_3 != -1) {
-                stringBuilder.replace(index_3, index_3 + 2, "{}");
-            }
-            if (index_1 == -1 && index_2 == -1 && index_3 == -1) i = stringLength;
         }
         return stringBuilder.toString();
     }
