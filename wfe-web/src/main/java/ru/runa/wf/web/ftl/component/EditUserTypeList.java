@@ -3,7 +3,8 @@ package ru.runa.wf.web.ftl.component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 import ru.runa.wfe.commons.ftl.FormComponentSubmissionPostProcessor;
@@ -115,4 +116,24 @@ public class EditUserTypeList extends AbstractUserTypeList implements FormCompon
         }
         return stringBuilder.toString();
     }
+
+    public String replaceByDefaultNew2(String stringInput) {
+        Map<String, String> replacements = new HashMap<String, String>() {{
+            put("\"", "'");
+            put("\n", "");
+            put("[]", "{}");
+        }};
+        String regexp = "\"|\n|\\[]";
+
+        StringBuffer sb = new StringBuffer();
+        Pattern p = Pattern.compile(regexp);
+        Matcher m = p.matcher(stringInput);
+
+        while (m.find())
+            m.appendReplacement(sb, replacements.get(m.group()));
+        m.appendTail(sb);
+
+        return sb.toString();
+    }
+
 }
