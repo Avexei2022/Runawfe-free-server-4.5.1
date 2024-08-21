@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+import org.apache.commons.lang3.StringUtils;
 import ru.runa.wfe.commons.ftl.FormComponentSubmissionPostProcessor;
 import ru.runa.wfe.var.UserTypeMap;
 import ru.runa.wfe.var.VariableDefinition;
@@ -135,5 +136,11 @@ public class EditUserTypeList extends AbstractUserTypeList implements FormCompon
 
         return sb.toString();
     }
+
+    public String replaceByDefaultNew3(String stringInput) {
+        String[] stringOld = {"\"", "\n", "[]"};
+        String[] stringNew = {"'", "", "{}"};
+        return StringUtils.replaceEach(stringInput, stringOld, stringNew);
+     }
 
 }

@@ -80,4 +80,11 @@ public class GetTemplateValueReturnTest {
 //        Assert.assertEquals(stringToCheck, stringOutput);
     }
 
+    @Benchmark
+    @Test
+    public void getStringByUsersMethod3() {
+        String stringToCheck = editUserTypeList.replaceByDefaultNew3(testString2);
+//        Assert.assertEquals(stringToCheck, stringOutput);
+    }
+
 }
