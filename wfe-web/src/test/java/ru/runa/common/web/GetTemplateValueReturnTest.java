@@ -62,21 +62,21 @@ public class GetTemplateValueReturnTest {
     @Benchmark
     @Test
     public void getStringByReplace() {
-        String stringToCheck = editUserTypeList.replaceByDefaultOld(testString);
+        String stringToCheck = editUserTypeList.replaceByDefaultOld(testString2);
 //        Assert.assertEquals(stringToCheck, stringOutput);
     }
 
     @Benchmark
     @Test
     public void getStringByUsersMethod1() {
-        String stringToCheck = editUserTypeList.replaceByDefaultNew(testString);
+        String stringToCheck = editUserTypeList.replaceByDefaultNew(testString2);
 //        Assert.assertEquals(stringToCheck, stringOutput);
     }
 
     @Benchmark
     @Test
     public void getStringByUsersMethod2() {
-        String stringToCheck = editUserTypeList.replaceByDefaultNew2(testString);
+        String stringToCheck = editUserTypeList.replaceByDefaultNew2(testString2);
 //        Assert.assertEquals(stringToCheck, stringOutput);
     }
 
